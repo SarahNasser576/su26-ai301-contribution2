@@ -1,7 +1,7 @@
 # Contribution 2: Don't show confirmation message in translations UI if there's no message set
 
 **Contribution Number:** 2  
-**Student:** Sarah Nasser
+**Student:** Sarah Nasser \
 **Issue:** https://github.com/civiform/civiform/issues/6007  
 **Status:** Phase I Complete
 
