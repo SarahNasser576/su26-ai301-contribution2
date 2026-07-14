@@ -1,8 +1,8 @@
-# Contribution 2: Don't show confirmation message in translations UI if there's no message set
+# Contribution 2: Creating a new user, non-translated error key
 
 **Contribution Number:** 2  
 **Student:** Sarah Nasser \
-**Issue:** https://github.com/civiform/civiform/issues/6007  
+**Issue:** https://github.com/ls1intum/Artemis/issues/12187
 **Status:** Phase I Complete
 
 ---
@@ -19,15 +19,15 @@ This issue is specific and bounded, and I can resolve it within a couple of week
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+When creating a new user as an admin with an invalid email pattern, the error message displayed is unclear and does not provide an explanation or visual feedback on why the email address is invalid.
 
 ### Expected Behavior
 
-[What should happen?]
+When creating a new user as an admin with an invalid email pattern, the error message displayed should be clear and provide an explanation or visual feedback on why the email address is invalid.
 
 ### Current Behavior
 
-[What actually happens?]
+If a new user is created as an admin with invalid email address, the error message displayed is unclear and does not explain why the email address is invalid.
 
 ### Affected Components
 
@@ -39,19 +39,31 @@ This issue is specific and bounded, and I can resolve it within a couple of week
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+I learned from an Artemis Development Environment Setup guide linked in the README instructions for this open-source project. To set up my local development environment on Visual Studio Code, I downloaded and installed Java JDK 25 and Node.js LTS 24.18.0. I also ran "sudo corepack enable" so I would not have to manually follow the official pnpm installation steps. I then used Docker to set up a MySQL database. While setting up the MySQL database, I struggled with resetting the root password to an empty password. I was using the command "mysql -u root --execute "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY ''";", and I asked Claude Code why my terminal was saying that the command "mysql" was not found. Claude told me that the mysql command-line client was installed only inside the Docker container and not on my Mac itself. Claude recommended me to use docker exec and the command "docker exec -it artemis-mysql mysql -u root --execute "ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY ''"" because my container was named artemis-mysql. This solution did not require me to install the mysql command-line client on my Mac itself. 
+
+Next, I set up my server by creating application-local.yml in src/main/resources/config and copying and pasting configuration settings recommended by the development environment setup guide into application-local.yml. When trying to run the server with the command line using a Gradle wrapper (command: ./gradlew bootRun --args='--spring.profiles.active=dev,jenkins,localvc,artemis,scheduling,local,core'), the application was not getting executed, so I gave Claude my terminal output from trying to run the server and asked Claude the application is not being executed. Claude informed me that I should not be using tabs in application-local.yml, and Claude also recommended numerous configuration options that were not mentioned in this setup guide. After including the configuration options recommended by Claude and removing tabs from application-local.yml, I was able to run the server. Finally, I started client application in the browser using the command "pnpm start" and accessed the website on http://localhost:8080 in my Chrome browser.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Include the YAML configuration code from the link https://docs.artemis.tum.de/admin/user-registration/ into application-local.yml, which is in src/main/resources/config, while not removing any of the preexisting code that is already in application-local.yml
+2. Run the server with the command ./gradlew bootRun --args='--spring.profiles.active=dev,jenkins,localvc,artemis,scheduling,local,core'.
+3. Once the website content becomes accessible on http://localhost:8080 in my Chrome browser, click the "Log in" button at the top right corner of the website to log in as a (super) admin.
+4. Input the username "artemis_admin" and the password "artemis_admin" to log in as a (super) admin
+5. Click on the profile link at the top right corner of the website, then click the button labeled "Administration"
+6. Click on the "Create a new user" button
+7. Fill in a nonvalid email address, e.g., CoursesExams
+8. Fill in anything for the first name and last name that only consists of letters, e.g., Courses for the first name and Exams for the last name
+9. Fill in a random number for registration number
+10. Use any of the options provided (English or Deutsch) for the Language prompt
+11. Choose any and as many of the options as you want (Super Admin, Admin, Instructor, Editor, Tutor, Student) in the global roles prompt
+12. Click the "Save" button at the bottom of the "Create a new user" page
+14. Observed result: An error message (Error on field "translation-not-found[artemisApp.managedUserVM.email]") is displayed at the top of the webpage. This error message is unclear and does not explain why the email address is invalid or how to make the email address valid.
 
 ### Reproduction Evidence
 
 - **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Screenshots/logs:** ![Issue Reproduction Screenshot](issue_reproduction.png)
+- **My findings:** During reproduction, I found that the issue described by the maintainer still exists. The error message (Error on field "translation-not-found[artemisApp.managedUserVM.email]") displayed at the top of the webpage after logging in as a (super) admin is unclear does not explain why the email address is invalid or how to make the email address valid.
 
 ---
 
@@ -69,7 +81,7 @@ This issue is specific and bounded, and I can resolve it within a couple of week
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** When new user as an admin gets created with an invalid email pattern, the error message displayed is unclear and does not provide an explanation or visual feedback on why the email address is invalid. I should make the error message clear and explain to the user why their email address is invalid or how to make their email address valid.
 
 **Match:** [What similar patterns/solutions exist in the codebase?]
 
