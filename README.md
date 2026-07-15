@@ -3,15 +3,15 @@
 **Contribution Number:** 2  
 **Student:** Sarah Nasser \
 **Issue:** https://github.com/ls1intum/Artemis/issues/12187
-**Status:** Phase I Complete
+**Status:** Phase II Complete
 
 ---
 
 ## Why I Chose This Issue
 
-I chose this issue because I am interested in web development, especially UI/UX design. I enjoy examining and resolving inconsistencies in a web application's UI/UX design that can confuse users. I fully understand this issue, which is that a confirmation message box always appears in the admin translations UI regardless of whether the admin set a custom confirmation message. This can confuse admins who did not set a custom confirmation message because they would not know whether they should click the confirmation message box. Thus, for clarity purposes, a confirmation message box should appear in the admin translations UI only if the admin set a custom confirmation message. In concrete acceptance criteria, the issue is fixed if a confirmation message box does not appear in the admin translations UI when the custom confirmation message is empty, and if a confirmation message box appears in the admin translations UI when the custom confirmation message is not empty.
+I chose this issue because I am interested in web development, especially UI/UX design. I enjoy ensuring that everything, including error messages, in a web application's UI/UX design are clear to users. I believe that if a user includes an invalid input for a field (e.g., an email field), the error message displayed should clearly explain why the input was invalid. I fully understand this issue, which is that the error message displayed for invalid email addresses when creating a new user as an admin do not clearly explain why an email address is invalid. This can confuse admins who do not understand why the email address they chose for a new user is invalid. Thus, for clarity purposes, error messages should clearly explain why an email address is invalid when an admin chooses an invalid email address when creating a new user. In concrete acceptance criteria, the issue is fixed if the error messages appear only when the email address is invalid (i.e., the error message does not contain a domain name, username, and exactly one "@" symbol), and if the error messages clearly explain why an email address is invalid if an admin creates a new user with an invalid email address.
 
-This issue is specific and bounded, and I can resolve it within a couple of weeks. The languages for the repository hosting this issue are Java, TypeScript, and HTML. I am skilled in Java and HTML, and despite having no knowledge of TypeScript, I believe I can learn TypeScript within a few days. This issue has not been assigned to anyone, and no one has claimed it. There has been recent maintainer and team member activity in this repository, and no open pull requests are already solving this issue. A commenter in the discussion thread for this issue provided a useful tip on resolving the issue (link to this comment: https://github.com/civiform/civiform/issues/6007#issuecomment-1821719919), and she recommends storing localizedConfirmationMessage as an Optional.empty() when there is no confirmation message. Her tip  would make it easier to determine whether there is actually a confirmation message. Following her tip would also make it easier to exclude the confirmation message box from the UI if there is no confirmation message. Additionally, the project has clear setup documentation that is compatible with my OS. I hope to learn TypeScript and gain more experience in coding with HTML and Java and making open-source contributions.
+This issue is specific and bounded, and I can resolve it within a couple of weeks. The languages for the repository hosting this issue are Java, TypeScript, and HTML. I am skilled in Java and HTML, and despite having no knowledge of TypeScript, I believe I can learn TypeScript within a few days. This issue has not been assigned to anyone, and no one has claimed it. There has been recent maintainer and team member activity in this repository, and no open pull requests are already solving this issue. The maintainer who posted this issue provided steps for reproducing the issue and showed a screenshot of how the issue looks on a web page (link to this post: https://github.com/ls1intum/Artemis/issues/12187#issue-3983732136). The maintainer's issue reproduction steps in order are to log in as a (super) admin, go to server management and then the Users Management page, create a new user, and fill in a nonvalid email address (I included more specific reproduction steps when completing Phase II). The maintainer's screenshot shows an invalid email address (abcd) and an unclear error message popup (Error on field "translation-not-found[artemisApp.managedUserVM.email]"). Additionally, the project has clear setup documentation that is compatible with my OS. I hope to learn TypeScript and gain more experience in coding with HTML and Java and making open-source contributions.
 
 ---
 
@@ -31,7 +31,50 @@ If a new user is created as an admin with invalid email address, the error messa
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+The code segment I pasted below is involved. This code segment is in Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.html.
+```
+<div class="mb-3 flex flex-col gap-2">
+  <label for="email" jhiTranslate="artemisApp.userManagement.email"></label>
+  <input
+  
+    id="email"
+    type="email"
+    pInputText
+    class="w-full"
+    name="email"
+    formControlName="email"
+    [minlength]="EMAIL_MIN_LENGTH"
+    required
+    [maxlength]="EMAIL_MAX_LENGTH"
+  />
+  @if (editForm.get('email')!.dirty && editForm.get('email')!.invalid) {
+    <div>
+      @if (editForm.get('email')!.errors?.required) {
+        <small class="text-state-danger" jhiTranslate="entity.validation.required"></small>
+      }
+      @if (editForm.get('email')!.errors?.maxlength) {
+        <small
+          class="text-state-danger"
+          jhiTranslate="artemisApp.userManagement.inputConstraints"
+          [translateValues]="{ min: EMAIL_MIN_LENGTH, max: EMAIL_MAX_LENGTH }"
+        ></small>
+      }
+      @if (editForm.get('email')!.errors?.minlength) {
+        <small
+          class="text-state-danger"
+          jhiTranslate="artemisApp.userManagement.inputConstraints"
+          [translateValues]="{ min: EMAIL_MIN_LENGTH, max: EMAIL_MAX_LENGTH }"
+        ></small>
+      }
+      @if (editForm.get('email')!.errors?.email) {
+        <small class="text-state-danger" jhiTranslate="global.messages.validate.email.invalid"></small>
+      }
+    </div>
+  }
+</div>
+```
+
+This code segment provides logic for determining whether the email address is valid when creating a new user. There are conditional statements used to determine whether the email address is invalid, and if a conditional statement returns true, an error message is displayed. The error messages embedded into this code logic for invalid email addresses are unclear and do not explain why the email address is invalid.
 
 ---
 
@@ -61,21 +104,20 @@ Next, I set up my server by creating application-local.yml in src/main/resources
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
+- **Commit showing reproduction:** https://github.com/SarahNasser576/Artemis/commit/74e4837c138367ca1e03b6181c3c49e8c3f8c369
 - **Screenshots/logs:** ![Issue Reproduction Screenshot](issue_reproduction.png)
-- **My findings:** During reproduction, I found that the issue described by the maintainer still exists. The error message (Error on field "translation-not-found[artemisApp.managedUserVM.email]") displayed at the top of the webpage after logging in as a (super) admin is unclear does not explain why the email address is invalid or how to make the email address valid.
-
+- **My findings:** During reproduction, I found that the issue described by the maintainer still exists. The error message (Error on field "translation-not-found[artemisApp.managedUserVM.email]") displayed at the top of the webpage after logging in as a (super) admin is unclear and does not explain why the email address is invalid or how to make the email address valid. The correct behavior is that this error message should clearly explain why the email address is invalid or how to make the email address valid.
 ---
 
 ## Solution Approach
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The error messages in the conditional statements, which display an error message if the new user's email address is invalid, (see the code segment above in the Affected Components subsection of the Understanding the Issue section) are unclear and do not clearly explain why the email address is invalid.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+I will keep the conditional statement for checking whether an email address was included when creating a new user (the first conditional statement in the code segment I pasted in the "Affected Components" subsection of the "Understanding the Issue" section above). In this conditional statement, if an email address, whether valid or invalid, was not included (empty text box in the email prompt), the "Save" button for saving a new user is unclickable, preventing a new user from being saved. The user also sees a message right below the email prompt that the email field is required. I will also keep the conditional statements for checking whether the new user's email address follows the length requirements (between the minimum length and maximum length, inclusive) (the second conditional statement in the code segment previously mentioned checks whether the email address is at least the minimum length, and the third conditional statement checks whether the email address is at most the maximum length). In these conditional statements, if the email address is shorter than the minimum length, the user gets a clear reminder right below the email prompt on the length requirements ("This field must contain 5 to 100 characters!"), and the "Save" button for saving a new user is unclickable, preventing a new user from being saved. Once the user types the maximum number of characters (100 characters) in the email field and tries to type another character, the webpage does not insert the 101th character the user tried to include. Thus, it is visibly clear that the new user cannot be created and why that is the case, if an email address, whether valid or invalid, is not included or if the email address does not follow the length requirements. I will include separate conditional statements for checking whether the new user's email address contains a domain name, username, and exactly one "@" symbol. If the email address does not contain exactly one "@" symbol, I will display an error message stating that the email address must contain exactly one "@" symbol. If the email address does not contain a domain name, I will display an error message stating that the email address must contain a domain name. If the email address does not contain a username, I will display an error message stating that the email address must contain a username.
 
 ### Implementation Plan
 
@@ -83,18 +125,58 @@ Using UMPIRE framework (adapted):
 
 **Understand:** When new user as an admin gets created with an invalid email pattern, the error message displayed is unclear and does not provide an explanation or visual feedback on why the email address is invalid. I should make the error message clear and explain to the user why their email address is invalid or how to make their email address valid.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:**
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+A related piece of code that does something similar to what I need is:
+@if (editForm.get('email')!.errors?.email) {
+  <small class="text-state-danger" jhiTranslate="global.messages.validate.email.invalid"></small>
+}
 
-**Implement:** [Link to your branch/commits as you work]
+This conditional statement states that if the new user's email address is invalid for any reason other than falling outside of the length requirements, an error message should be displayed. This error message does not clearly explain why the email address is invalid. This piece of code relates to my plan below because my plan will use multiple conditional statements to check for whether the email address is invalid and display an error message that clearly explains why that is the case. My plan will include one conditional statement for checking whether the email address contains exactly one "@" symbol, one conditional statement for checking whether the email address contains a domain name, and one conditional statement for checking whether the email address contains a username. Unlike the project's current behavior, each of these three errors will result in its own customized error message on why the email address is invalid. If the email address does not contain exactly one "@" symbol, the error message should state that the email address should contain exactly one "@" symbol. If the email address does not contain a domain name, the error message should state that the email address should contain a domain name. If the email address does not contain a username, the error message should state that the email address should contain a username.
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Plan:**
+1. Modify Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.html to implement the the following email address validation logic steps in the exact order listed below.
+2. Keep the following three conditional statements (these should remain the first three conditional statements in the email address validation logic; see in my high-level proposed solution above what these three conditional statements do and why including an email address outside of the length limits or not including an email address does not confuse the user):
+@if (editForm.get('email')!.errors?.required) {
+  <small class="text-state-danger" jhiTranslate="entity.validation.required"></small>
+}
+@if (editForm.get('email')!.errors?.maxlength) {
+  <small
+    class="text-state-danger"
+    jhiTranslate="artemisApp.userManagement.inputConstraints"
+    [translateValues]="{ min: EMAIL_MIN_LENGTH, max: EMAIL_MAX_LENGTH }"
+  ></small>
+}
+@if (editForm.get('email')!.errors?.minlength) {
+  <small
+    class="text-state-danger"
+    jhiTranslate="artemisApp.userManagement.inputConstraints"
+    [translateValues]="{ min: EMAIL_MIN_LENGTH, max: EMAIL_MAX_LENGTH }"
+  ></small>
+}
+4. Include an if-conditional statement that if the new user's email address does not contain exactly one "@" symbol, display the error message, "Error: The email address must contain exactly one "@" symbol."
+5. Include an if-conditional statement that if the new user's email address does not contain a domain name, display the error message, "Error: The email address must contain a domain name."
+6. Include an if-conditional statement that if the new user's email address does not contain a username, display the error message, "Error: The email address must contain a username."
 
-**Evaluate:** [How will you verify it works?]
+**Implement:** https://github.com/SarahNasser576/Artemis/commits/fix-issue-NewUserErrorMessage/?author=SarahNasser576
+
+**Review:**
+
+- Did I reuse code if possible? (Answer to this question should be yes.)
+- Did I duplicate code? (Answer to this question should be no.)
+- Did I write meaningful and comprehensive tests? (see the "Evaluate" subsection below for the kinds of tests I will use) (Answer to this question should be yes.)
+- Did I validate and sanitize data? (Answer to this question should be yes.)
+- Does my code pass all formatting and linting checks? (Review this question once my code goes through linting and formatting checks on GitHub after PR submission. These checks will occur before maintainers consider merging my PR.) (Answer to this question should be yes.)
+- Did I document my code appropriately? (Answer to this question should be yes.)
+- Do all my error messages clearly explain why the new user's email address is invalid? (Answer to this question should be yes.)
+- Do all my error messages only include what is necessary? (Answer to this question should be yes.)
+- Do all my error messages avoid technical jargon? (Answer to this question should be yes.)
+- Do all my error messages use uniform colors (Answer to this question should be yes.)
+- Do all my error messages use semantic tokens for colors (Ideally, all the error messages are red, just like they are currently in this project.) (Answer to this question should be yes.)
+- Do all my error messages use uniform spacing? (Answer to this question should be yes.)
+- Do all my error messages use uniform icons? (Answer to this question should be yes.)
+
+**Evaluate:** After signing in as a (super) admin, I will attempt many times to create a new user. One of these attempts will be with a valid email address. I should expect to see no error messsage if the email address is valid. The other attempts will be invalid email addresses, each of these invalid attempts with a different issue that would make an email address invalid (e.g., no domain name, no "@" symbol, no username, more than one "@" symbol). In all the attempts with invalid email addresses, an error message should be displayed and should be clear and explain why the email address is invalid. Due to there being various issues that can make an email address invalid, there will need to be a customized error message for each type of reason why an email address is invalid. For example, if the email address had a domain name but is invalid due to not containing an "@" symbol, the error message should state the exact reason for why the email address is invalid and should not say that the email address is invalid due to not containing a domain name. Another example is that if the email address has neither a domain name nor an "@" symbol, the error message should state that the email address is invalid due to containing neither an "@" symbol nor a domain name.
 
 ---
 
