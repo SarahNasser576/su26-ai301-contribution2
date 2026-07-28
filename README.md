@@ -3,7 +3,7 @@
 **Contribution Number:** 2  
 **Student:** Sarah Nasser \
 **Issue:** https://github.com/ls1intum/Artemis/issues/12187 \
-**Status:** Phase II Complete
+**Status:** Phase III In Progress
 
 ---
 
