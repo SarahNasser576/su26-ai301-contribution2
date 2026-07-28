@@ -157,6 +157,7 @@ This conditional statement states that if the new user's email address is invali
 4. Include an if-conditional statement that if the new user's email address does not contain exactly one "@" symbol, display the error message, "Error: The email address must contain exactly one "@" symbol."
 5. Include an if-conditional statement that if the new user's email address does not contain a domain name, display the error message, "Error: The email address must contain a domain name."
 6. Include an if-conditional statement that if the new user's email address does not contain a username, display the error message, "Error: The email address must contain a username."
+7. Include an if-conditional statement that if the new user's email address contains at least one spaces, display the error message, "Error: The email address must not contain any spaces."
 
 **Implement:** https://github.com/SarahNasser576/Artemis/commits/fix-issue-NewUserErrorMessage/?author=SarahNasser576
 
@@ -208,6 +209,8 @@ I only did manual tests, no automated tests.
 ### Week 8 Progress
 
 I displayed the error message "Error: The email address must contain exactly one "@" symbol" if the new user's email address does not contain exactly one "@" symbol. I displayed the error message "Error: The email address must contain a domain name" if the email address does not contain a domain name. I displayed the error message "Error: The email address must contain a username" if the email address does not contain a username. The first error I addressed was the email address not containing exactly one "@" symbol, and as someone new to TypeScript, it was especially difficult understanding how to display the appropriate error message if this error occurs. I asked Claude Code many questions about how to do this and asked it for help with debugging my code, and Claude Code helped me display this error message when the email address does not contain exactly one "@" symbol. I decided to address all these three errors because they can each make an email address invalid and I wanted my code to work for various invalid email addresses. I also decided to not change any of the existing CSS code to keep my CSS designs consistent with the rest of the project and to not make changes the maintainer would not approve of.
+
+My next step is to display the error message, "Error: The email address must not contain any spaces" if the new user's email address contains at least one space.
 
 ### Week [Y] Progress
 
