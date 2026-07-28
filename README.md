@@ -182,6 +182,8 @@ This conditional statement states that if the new user's email address is invali
 
 ## Testing Strategy
 
+I only did manual tests, no automated tests.
+
 ### Unit Tests
 
 - [ ] Test case 1: [Description]
@@ -194,16 +196,18 @@ This conditional statement states that if the new user's email address is invali
 - [ ] Integration scenario 2
 
 ### Manual Testing
-
-[What you tested manually and results]
+- I created a new user with the email address "CourseExams" (no "@" symbol), and the error message "Error: The email address must contain exactly one "@" symbol" was displayed on the website. Test passed.
+- I created a new user with the email address "test@test@gmail.com" (more than one "@" symbol), and the error message "Error: The email address must contain exactly one "@" symbol" was displayed on the website. Test passed.
+- I created a new user with the email address "courses@" (no domain name), and the error message "Error: The email address must contain a domain name" was displayed on the website. Test passed.
+- I created a new user with the email address "@rows" (no username), and the error message "Error: The email address must contain a username" was displayed on the website. Test passed.
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 8 Progress
 
-[What you built this week, challenges faced, decisions made]
+I displayed the error message "Error: The email address must contain exactly one "@" symbol" if the new user's email address does not contain exactly one "@" symbol. I displayed the error message "Error: The email address must contain a domain name" if the email address does not contain a domain name. I displayed the error message "Error: The email address must contain a username" if the email address does not contain a username. The first error I addressed was the email address not containing exactly one "@" symbol, and as someone new to TypeScript, it was especially difficult understanding how to display the appropriate error message if this error occurs. I asked Claude Code many questions about how to do this and asked it for help with debugging my code, and Claude Code helped me display this error message when the email address does not contain exactly one "@" symbol. I decided to address all these three errors because they can each make an email address invalid and I wanted my code to work for various invalid email addresses. I also decided to not change any of the existing CSS code to keep my CSS designs consistent with the rest of the project and to not make changes the maintainer would not approve of.
 
 ### Week [Y] Progress
 
@@ -211,9 +215,9 @@ This conditional statement states that if the new user's email address is invali
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:** Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.html, Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.ts
+- **Key commits:** https://github.com/SarahNasser576/Artemis/commit/2be3f0882bd015c94649a72a417e257cc79228dd, https://github.com/SarahNasser576/Artemis/commit/c431185e0b78886f5d166d8a554379699a2737bb, https://github.com/SarahNasser576/Artemis/commit/14d996d99adcac5caa169c9866290a143604729d
+- **Approach decisions:** I created separate functions for checking whether the email address contains exactly one "@" symbol, whether the email address contains a domain name, and whether the email address contains a username. This helped make my code more organized and readable. I called these functions to implement email validation logic to print the appropriate error message for each type of error (email address not containing a domain name, username, or exactly one "@" symbol).
 
 ---
 
