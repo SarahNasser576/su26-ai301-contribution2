@@ -157,9 +157,15 @@ This conditional statement states that if the new user's email address is invali
 4. Include an if-conditional statement that if the new user's email address does not contain exactly one "@" symbol, display the error message, "Error: The email address must contain exactly one "@" symbol."
 5. Include an if-conditional statement that if the new user's email address does not contain a domain name, display the error message, "Error: The email address must contain a domain name."
 6. Include an if-conditional statement that if the new user's email address does not contain a username, display the error message, "Error: The email address must contain a username."
-7. Include an if-conditional statement that if the new user's email address contains at least one spaces, display the error message, "Error: The email address must not contain any spaces."
+7. Include an if-conditional statement that if the domain starts with a period, display the error message, "Error: The domain must not start with a period."
+8. Include an if-conditional statement that if the domain ends with a period, display the error message, "Error: The domain must not end with a period."
+9. Include an if-conditional statement that if the username starts with a period, display the error message, "Error: The username must not start with a period."
+10. Include an if-conditional statement that if the username ends with a period, display the error message, "Error: The username must not end with a period."
+11. Include an if-conditional statement that if the new user's email address contains consecutive periods, display the error message, "Error: The email address must not contain consecutive periods."
+12. Include an if-conditional statement that if at least one domain label starts with a hyphen, display the error message, "Error: Domain labels must not start with a hyphen (-)."
+13. Include an if-conditional statement that if at least one domain label ends with a hyphen, display the error message, "Error: Domain labels must not end with a hyphen (-)."
 
-**Implement:** https://github.com/SarahNasser576/Artemis/commits/fix-issue-NewUserErrorMessage/?author=SarahNasser576
+**Implement:** https://github.com/SarahNasser576/Artemis/commits/fix-issue-NewUserErrorMessage
 
 **Review:**
 
@@ -201,6 +207,19 @@ I only did manual tests, no automated tests.
 - I created a new user with the email address "test@test@gmail.com" (more than one "@" symbol), and the error message "Error: The email address must contain exactly one "@" symbol" was displayed on the website. Test passed.
 - I created a new user with the email address "courses@" (no domain name), and the error message "Error: The email address must contain a domain name" was displayed on the website. Test passed.
 - I created a new user with the email address "@rows" (no username), and the error message "Error: The email address must contain a username" was displayed on the website. Test passed.
+- I created a new user with the email address "testing@.com" (domain starts with a period), and the error message "Error: The domain must not start with a period" was displayed on the website. Test passed.
+- I created a new user with the email address "testing@.example.com" (domain starts with a period), and the error message "Error: The domain must not start with a period" was displayed on the website. Test passed.
+- I created a new user with the email address "testing@gmail.com." (domain ends with a period), and the error message "Error: The domain must not end with a period" was displayed on the website. Test passed.
+- I created a new user with the email address ".testing@gmail.com" (username starts with a period), and the error message "Error: The username must not start with a period" was displayed on the website. Test passed.
+- I created a new user with the email address "testing.@example.com" (username ends with a period), and the error message "Error: The username must not end with a period" was displayed on the website. Test passed.
+- I created a new user with the email address "course..exams@example.com" (email address contains consecutive periods), and the error message "Error: The email address must not contain consecutive periods" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@example..com" (email address contains consecutive periods), and the error message "Error: The email address must not contain consecutive periods" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@-students.gmail.com" (at least one domain label starts with a hyphen), and the error message "Error: Domain labels must not start with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@students.-gmail.com" (at least one domain label starts with a hyphen), and the error message "Error: Domain labels must not start with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@students.gmail.-com" (at least one domain label starts with a hyphen), and the error message "Error: Domain labels must not start with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@students-.gmail.com" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@students.gmail-.com" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "courseexams@students.gmail.com-" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
 
 ---
 
@@ -208,19 +227,22 @@ I only did manual tests, no automated tests.
 
 ### Week 8 Progress
 
-I displayed the error message "Error: The email address must contain exactly one "@" symbol" if the new user's email address does not contain exactly one "@" symbol. I displayed the error message "Error: The email address must contain a domain name" if the email address does not contain a domain name. I displayed the error message "Error: The email address must contain a username" if the email address does not contain a username. The first error I addressed was the email address not containing exactly one "@" symbol, and as someone new to TypeScript, it was especially difficult understanding how to display the appropriate error message if this error occurs. I asked Claude Code many questions about how to do this and asked it for help with debugging my code, and Claude Code helped me display this error message when the email address does not contain exactly one "@" symbol. I decided to address all these three errors because they can each make an email address invalid and I wanted my code to work for various invalid email addresses. I also decided to not change any of the existing CSS code to keep my CSS designs consistent with the rest of the project and to not make changes the maintainer would not approve of.
+I displayed the error message "Error: The email address must contain exactly one "@" symbol" if the new user's email address does not contain exactly one "@" symbol. I displayed the error message "Error: The email address must contain a domain name" if the email address does not contain a domain name. I displayed the error message "Error: The email address must contain a username" if the email address does not contain a username. The first error I addressed was the email address not containing exactly one "@" symbol, and as someone new to TypeScript, it was especially difficult understanding how to display the appropriate error message if this error occurs. I asked Claude Code many questions about how to do this and asked it for help with debugging my code, and Claude Code helped me display this error message when the email address does not contain exactly one "@" symbol. I decided to address all these three errors because they can each make an email address invalid and I wanted my code to work for various invalid email addresses.
 
-My next step is to display the error message, "Error: The email address must not contain any spaces" if the new user's email address contains at least one space.
+### Week 9 Progress
 
-### Week [Y] Progress
+I displayed the error message "Error: The domain must not start with a period" if the domain starts with a period. I displayed the error message "Error: The domain must not end with a period" if the domain ends with a period. I displayed the error message "Error: The username must not start with a period" if the username starts with a period. I displayed the error message "Error: The username must not end with a period" if the username ends with a period. I displayed the error message "Error: The email address must not contain consecutive periods" if the email address contains consecutive periods. I displayed the error message "Error: Domain labels must not start with a hyphen (-)" if at least one domain label starts with a hyphen. I displayed the error message "Error: Domain labels must not end with a hyphen (-)" if at least one domain label ends with a hyphen. Even though I had to review a few string methods (```startsWith()''', ```endsWith''', ```split()''') and ask Claude Code how to clear all error messages alerts before clicking the "Save" button on the page where I create a new user, implementation was easy this week because I learned last week from Claude Code how to display the appropriate error message depending on the error. I decided to address all these errors (domain starting or ending with a period, username starting or ending with a period, email address containing consecutive periods, at least one domain label starting or ending with a hyphen) because they can each make an email address invalid and I wanted my code to work for various invalid email addresses.
 
-[Continue documenting as you work]
+Next steps:
+
+- I currently have a function and if-conditional statement in the case that the domain starts with a period, and a function and if-conditional statement in the case that at least one domain label starts with a period. I can remove the function and if-conditional statement in the case that the domain starts with a period, because this error is equivalent to the first domain label starting with a period.
+- I currently have a function and if-conditional statement in the case that the domain ends with a period, and a function and if-conditional statement in the case that at least one domain label ends with a period. I can remove the function and if-conditional statement in the case that the domain ends with a period, because this error is equivalent to the last domain label ending with a period.
 
 ### Code Changes
 
 - **Files modified:** Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.html, Artemis/Artemis/src/main/webapp/app/admin/user-management/update/user-management-update.component.ts
-- **Key commits:** https://github.com/SarahNasser576/Artemis/commit/2be3f0882bd015c94649a72a417e257cc79228dd, https://github.com/SarahNasser576/Artemis/commit/c431185e0b78886f5d166d8a554379699a2737bb, https://github.com/SarahNasser576/Artemis/commit/14d996d99adcac5caa169c9866290a143604729d
-- **Approach decisions:** I created separate functions for checking whether the email address contains exactly one "@" symbol, whether the email address contains a domain name, and whether the email address contains a username. This helped make my code more organized and readable. I called these functions to implement email validation logic to print the appropriate error message for each type of error (email address not containing a domain name, username, or exactly one "@" symbol).
+- **Key commits:** https://github.com/SarahNasser576/Artemis/commit/2be3f0882bd015c94649a72a417e257cc79228dd, https://github.com/SarahNasser576/Artemis/commit/c431185e0b78886f5d166d8a554379699a2737bb, https://github.com/SarahNasser576/Artemis/commit/14d996d99adcac5caa169c9866290a143604729d, https://github.com/SarahNasser576/Artemis/commit/263fe837c2cb886a3f9988720b296aa9b01a6f21, https://github.com/SarahNasser576/Artemis/commit/21d15273311c3c7581820616b7d9d64e28394a23, https://github.com/SarahNasser576/Artemis/commit/eca00e0d41fb2694e7f1be072394e28649ae1a31, https://github.com/SarahNasser576/Artemis/commit/c0d98b84133de9945f9de1acdd4e32c790461a83, https://github.com/SarahNasser576/Artemis/commit/59e350c91c4400304e8fb503cc41febe38ef5f8d, https://github.com/SarahNasser576/Artemis/commit/f2c233179031042b9bdb2e82b92ca298471385d1, https://github.com/SarahNasser576/Artemis/commit/04f824e0ca6a226fa61ca57cffdbf90a19f30cbf
+- **Approach decisions:** I created and called separate functions for each type of error I addressed in Weeks 8 and 9. This helped make my code more organized and readable.
 
 ---
 
