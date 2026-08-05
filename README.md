@@ -203,6 +203,7 @@ I only did manual tests, no automated tests.
 - [ ] Integration scenario 2
 
 ### Manual Testing
+- I created a new user with the email address "testing@gmail.com", and no error message was displayed. This email address was successfully saved. Test passed.
 - I created a new user with the email address "CourseExams" (no "@" symbol), and the error message "Error: The email address must contain exactly one "@" symbol" was displayed on the website. Test passed.
 - I created a new user with the email address "test@test@gmail.com" (more than one "@" symbol), and the error message "Error: The email address must contain exactly one "@" symbol" was displayed on the website. Test passed.
 - I created a new user with the email address "courses@" (no domain name), and the error message "Error: The email address must contain a domain name" was displayed on the website. Test passed.
@@ -220,6 +221,11 @@ I only did manual tests, no automated tests.
 - I created a new user with the email address "courseexams@students-.gmail.com" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
 - I created a new user with the email address "courseexams@students.gmail-.com" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
 - I created a new user with the email address "courseexams@students.gmail.com-" (at least one domain label ends with a hyphen), and the error message "Error: Domain labels must not end with a hyphen (-)" was displayed on the website. Test passed.
+- I created a new user with the email address "testing..now" (no "@" symbol, email address contains consecutive periods), and the following error messages were displayed on the website: "Error: The email address must contain exactly one "@" symbol" and "Error: The email address must not contain consecutive periods" Test passed.
+- I created a new user with the email address "testing..now@" (no domain name, email address contains consecutive periods), and the following error messages were displayed on the website: "Error: The email address must contain a domain name" and "Error: The email address must not contain consecutive periods" Test passed.
+- I created a new user with the email address "@gmail..com" (no username, email address contains consecutive periods), and the following error messages were displayed on the website: "Error: The email address must contain a username" and "Error: The email address must not contain consecutive periods" Test passed.
+- I created a new user with the email address "testingnow@.gmail.com." (domain starts and ends with a period), and the following error messages were displayed on the website: "Error: The domain must not end with a period" and "Error: The domain must not start with a period". Test passed.
+- I created a new user with the email address "@-gmail.com" (no username, at least one domain label starts with a hyphen), and the following error messages were displayed on the website: "Error: The email address must not contain consecutive periods" and "Error: The email address must contain a username" Test passed.
 
 ---
 
@@ -233,10 +239,9 @@ I displayed the error message "Error: The email address must contain exactly one
 
 I displayed the error message "Error: The domain must not start with a period" if the domain starts with a period. I displayed the error message "Error: The domain must not end with a period" if the domain ends with a period. I displayed the error message "Error: The username must not start with a period" if the username starts with a period. I displayed the error message "Error: The username must not end with a period" if the username ends with a period. I displayed the error message "Error: The email address must not contain consecutive periods" if the email address contains consecutive periods. I displayed the error message "Error: Domain labels must not start with a hyphen (-)" if at least one domain label starts with a hyphen. I displayed the error message "Error: Domain labels must not end with a hyphen (-)" if at least one domain label ends with a hyphen. Even though I had to review a few string methods (```startsWith()''', ```endsWith''', ```split()''') and ask Claude Code how to clear all error messages alerts before clicking the "Save" button on the page where I create a new user, implementation was easy this week because I learned last week from Claude Code how to display the appropriate error message depending on the error. I decided to address all these errors (domain starting or ending with a period, username starting or ending with a period, email address containing consecutive periods, at least one domain label starting or ending with a hyphen) because they can each make an email address invalid and I wanted my code to work for various invalid email addresses.
 
-Next steps:
+### Week 10 Progress
 
-- I currently have a function and if-conditional statement in the case that the domain starts with a period, and a function and if-conditional statement in the case that at least one domain label starts with a period. I can remove the function and if-conditional statement in the case that the domain starts with a period, because this error is equivalent to the first domain label starting with a period.
-- I currently have a function and if-conditional statement in the case that the domain ends with a period, and a function and if-conditional statement in the case that at least one domain label ends with a period. I can remove the function and if-conditional statement in the case that the domain ends with a period, because this error is equivalent to the last domain label ending with a period.
+I addressed all cases in which multiple errors may occur in email validation. It was a little hard to know where to put the return; statement in my email validation logic because I wanted the web application to successfully save valid error messages while displaying all error messages (not just one error message). I solved this issue by logically thinking through my code. I decided to show all error messages and not just one error message because I want to allow admins to review all errors in the new user's email address without having to fail multiple times to enter a valid email address.
 
 ### Code Changes
 
