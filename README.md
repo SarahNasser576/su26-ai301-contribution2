@@ -225,7 +225,7 @@ I only did manual tests, no automated tests.
 - I created a new user with the email address "testing..now@" (no domain name, email address contains consecutive periods), and the following error messages were displayed on the website: "Error: The email address must contain a domain name" and "Error: The email address must not contain consecutive periods" Test passed.
 - I created a new user with the email address "@gmail..com" (no username, email address contains consecutive periods), and the following error messages were displayed on the website: "Error: The email address must contain a username" and "Error: The email address must not contain consecutive periods" Test passed.
 - I created a new user with the email address "testingnow@.gmail.com." (domain starts and ends with a period), and the following error messages were displayed on the website: "Error: The domain must not end with a period" and "Error: The domain must not start with a period". Test passed.
-- I created a new user with the email address "@-gmail.com" (no username, at least one domain label starts with a hyphen), and the following error messages were displayed on the website: "Error: The email address must not contain consecutive periods" and "Error: The email address must contain a username" Test passed.
+- I created a new user with the email address "@-gmail.com" (no username, at least one domain label starts with a hyphen), and the following error messages were displayed on the website: "Error: Domain labels must not start with a hyphen (-)" and "Error: The email address must contain a username" Test passed.
 
 ---
 
