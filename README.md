@@ -3,7 +3,7 @@
 **Contribution Number:** 2  
 **Student:** Sarah Nasser \
 **Issue:** https://github.com/ls1intum/Artemis/issues/12187 \
-**Status:** Phase III Complete
+**Status:** Phase III In Progress
 
 ---
 
@@ -241,11 +241,11 @@ I displayed the error message "Error: The domain must not start with a period" i
 
 ### Week 10 Progress
 
-I addressed all cases in which multiple errors may occur in email validation. It was a little hard to know where to put the return; statement in my email validation logic because I wanted the web application to successfully save valid error messages while displaying all error messages (not just one error message). I solved this issue by logically thinking through my code. I decided to show all error messages and not just one error message because I want to allow admins to review all errors in the new user's email address without having to fail multiple times to enter a valid email address.
+I addressed all cases in which two errors may occur in email validation. It was a little hard to know where to put the return; statement in my email validation logic because I wanted the web application to successfully save valid error messages while displaying all error messages (not just one error message). I solved this issue by logically thinking through my code. I decided to show all error messages and not just one error message because I want to allow admins to review all errors in the new user's email address without having to fail multiple times to enter a valid email address.
 
 ### Week 11 Progress
 
-I synced my fork with the upstream ls1intum/Artemis:develop. I faced many issues when trying to sync my fork and ensuring all my commit messages were shown on my GitHub fork and not just internally stored in Git, so I asked Claude Code and ChatGPT all my questions regarding this. Additionally, I decided to make my displayed error messages have the same design as all the other displayed messages in the web application. I did this because the maintainer didn't say whether the displayed error messages can have different designs from the other displayed messages.
+I synced my fork with the upstream ls1intum/Artemis:develop. I faced many issues when trying to sync my fork and ensuring all my commit messages were shown on my GitHub fork and not just internally stored in Git, so I asked Claude Code and ChatGPT all my questions regarding this. Additionally, I decided to make my displayed error messages have the same design as all the other displayed messages in the web application. I did this because the maintainer didn't say whether the displayed error messages can have different designs from the other displayed messages. My next step is to address all cases in which three or more errors occur in email validation.
 
 ### Code Changes
 
